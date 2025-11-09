@@ -82,8 +82,7 @@ async function run() {
         res.status(500).json({ success: false, message: "Server error" });
       }
     });
-
-    console.log("✅ MongoDB Connected");
+    console.log(" MongoDB Connected");
   } finally {
     // close connection 
     // await client.close();
