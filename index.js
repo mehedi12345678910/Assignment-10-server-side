@@ -1,8 +1,7 @@
-
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config(); 
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,9 +13,12 @@ app.use(express.json());
 // MongoDB URI from .env
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri, {
-  serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true }
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
-
 async function run() {
   try {
     const bookCollection = client.db("bookHavenDB").collection("books");
@@ -30,21 +32,21 @@ async function run() {
       res.send(result);
     });
 
-    // Add Book 
+    // Add Book
     app.post("/add-book", async (req, res) => {
       const data = req.body;
       const result = await bookCollection.insertOne(data);
       res.send(result);
     });
 
-    // Single Book 
+    // Single Book
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
       const result = await bookCollection.findOne({ _id: new ObjectId(id) });
       res.send(result);
     });
 
-    // Update Book 
+    // Update Book
     app.put("/update-book/:id", async (req, res) => {
       const id = req.params.id;
       const updatedData = req.body;
@@ -62,13 +64,15 @@ async function run() {
       res.send(result);
     });
 
-    // Add Comment 
+    // Add Comment
     app.post("/book/:id/comments", async (req, res) => {
       const bookId = req.params.id;
       const commentData = req.body;
 
       if (!commentData || !commentData.text || !commentData.userId) {
-        return res.status(400).json({ success: false, message: "Invalid comment data" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Invalid comment data" });
       }
 
       try {
@@ -84,7 +88,7 @@ async function run() {
     });
     console.log(" MongoDB Connected");
   } finally {
-    // close connection 
+    // close connection
     // await client.close();
   }
 }
