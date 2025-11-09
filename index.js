@@ -86,7 +86,7 @@ async function run() {
     console.log("✅ MongoDB Connected");
 
   } finally {
-    // Optionally close connection on exit
+    // close connection 
     // await client.close();
   }
 }
