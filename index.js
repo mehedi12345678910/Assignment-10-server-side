@@ -1,9 +1,7 @@
 
-//ata orginal code
-
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+require('dotenv').config(); 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
@@ -13,8 +11,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB URI
-const uri = "mongodb+srv://Book-Haven:Wu16SHqpV7BLQAgO@cluster0.1ejwnc7.mongodb.net/?appName=Cluster0";
+// MongoDB URI from .env
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri, {
   serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true }
 });
@@ -88,10 +86,10 @@ async function run() {
     console.log("✅ MongoDB Connected");
 
   } finally {
-   
+    // Optionally close connection on exit
+    // await client.close();
   }
 }
 run().catch(console.dir);
 
 app.listen(port, () => console.log(`✅ Server running on port: ${port}`));
-
